@@ -31,20 +31,55 @@
         </footer>
     </div>
 
-    <script>
-        // Fungsi sementara untuk mengubah teks status saat tombol diklik
-        function toggleLampu() {
-            const toggle = document.getElementById('lamp-toggle');
-            const statusText = document.getElementById('status-text');
-            
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Konfigurasi Firebase asli milik Dafa
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGIALgmGu47LbErldcTCKrX0gLPK6Ro1c",
+            authDomain: "project-akhir-inotek.firebaseapp.com",
+            databaseURL: "https://project-akhir-inotek-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "project-akhir-inotek",
+            storageBucket: "project-akhir-inotek.firebasestorage.app",
+            messagingSenderId: "284363738",
+            appId: "1:284363738:web:ca8bc6a7e4def79c4ba493",
+            measurementId: "G-VWS44JSYY4"
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        
+        // Membuat path/lokasi data di database bernama "status_lampu"
+        const lampuRef = ref(database, 'status_lampu');
+
+        // Ambil elemen HTML untuk manipulasi tampilan
+        const toggle = document.getElementById('lamp-toggle');
+        const statusText = document.getElementById('status-text');
+
+        // 1. FUNGSI KIRIM DATA: Mengubah data di Firebase saat tombol diklik
+        window.toggleLampu = function() {
             if (toggle.checked) {
+                set(lampuRef, 1); // Jika ON, kirim angka 1
+            } else {
+                set(lampuRef, 0); // Jika OFF, kirim angka 0
+            }
+        }
+
+        // 2. FUNGSI SINKRONISASI: Jika data di Firebase berubah, tampilan web otomatis ikut berubah
+        onValue(lampuRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data === 1) {
+                toggle.checked = true;
                 statusText.innerText = "Status: MENYALA";
                 statusText.className = "status status-on";
             } else {
+                toggle.checked = false;
                 statusText.innerText = "Status: MATI";
                 statusText.className = "status status-off";
             }
-        }
+        });
     </script>
 </body>
 </html>
