@@ -2,10 +2,49 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Project Akhir Inotek</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Dashboard - Proyek Akhir Inotek</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Monitoring Sensor LDR</h1>
-    <p>Website ini terhubung dengan GitHub Pages!</p>
+
+    <div class="dashboard-container">
+        <header>
+            <h1>INOTEK SMART LIGHTING</h1>
+            <p class="subtitle">Sistem Kendali Arduino Uno via Cloud</p>
+        </header>
+
+        <div class="card">
+            <div class="card-icon">💡</div>
+            <h2>Kendali Lampu Utama</h2>
+            <p id="status-text" class="status status-off">Status: MATI</p>
+            
+            <label class="switch">
+                <input type="checkbox" id="lamp-toggle" onchange="toggleLampu()">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <footer>
+            <p>Dikembangkan oleh Kelompok Proyek Akhir Inotek &copy; 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fungsi sementara untuk mengubah teks status saat tombol diklik
+        function toggleLampu() {
+            const toggle = document.getElementById('lamp-toggle');
+            const statusText = document.getElementById('status-text');
+            
+            if (toggle.checked) {
+                statusText.innerText = "Status: MENYALA";
+                statusText.className = "status status-on";
+            } else {
+                statusText.innerText = "Status: MATI";
+                statusText.className = "status status-off";
+            }
+        }
+    </script>
 </body>
 </html>
